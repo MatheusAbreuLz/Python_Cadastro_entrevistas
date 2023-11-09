@@ -127,7 +127,7 @@ class App():
             self.listar()
 
     def createPDF(self, dados, name):
-        doc = SimpleDocTemplate("./PDFs/"+name+".pdf",pagesize=letter,
+        doc = SimpleDocTemplate(name+".pdf",pagesize=letter,
                         rightMargin=72,leftMargin=72,
                         topMargin=72,bottomMargin=18)
         Story = []
@@ -157,7 +157,7 @@ class App():
 
     def createPDFAll(self, dados , name):
         try:
-            doc = SimpleDocTemplate("./PDFs/"+name+".pdf",pagesize=letter,
+            doc = SimpleDocTemplate(name+".pdf",pagesize=letter,
                         rightMargin=72,leftMargin=72,
                         topMargin=72,bottomMargin=18)
             Story = []
