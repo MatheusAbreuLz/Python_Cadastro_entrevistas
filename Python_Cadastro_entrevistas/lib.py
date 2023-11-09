@@ -359,8 +359,3 @@ class App():
                     end = end+"'"+data[item].get()+"', "
         sql = start + end + ')'
         return sql
-
-
-
-app = App()
-app.window.mainloop()
