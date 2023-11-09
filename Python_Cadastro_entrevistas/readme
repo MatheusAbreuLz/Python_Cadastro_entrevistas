@@ -1,0 +1,7 @@
+Para esta aplicação funcionar de modo correto,
+as seguintes bibliotecas devem ser instaladas
+
+pip install customtkinter
+pip install mysql-connector-python
+pip install packaging
+pip install reportlab
