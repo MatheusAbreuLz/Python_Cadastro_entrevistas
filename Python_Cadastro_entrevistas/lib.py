@@ -18,6 +18,7 @@ class App():
     dadosSearch = {'Entrevista':'','Teorico':'','Pratico':'','Soft_Skills':''}
     data = []
     formated = ['Id','Nome', 'Telefone', 'Minibio', 'Entrevista', 'Teorico', 'Pratico', 'Soft_Skills']
+    Formated_for_all = ['Nome', 'Telefone', 'Minibio', 'Entrevista', 'Teorico', 'Pratico', 'Soft_Skills']
     formated_select = ['Nome', 'Entrevista', 'Teorico', 'Pratico', 'Soft_Skills']
     def __init__(self):
 
@@ -64,7 +65,7 @@ class App():
         # self.pdf.createPDF()
     
     def all(self):
-        self.__cursor.execute('SELECT * FROM user')
+        self.__cursor.execute(self.createSQLListagemAll())
         data = self.__cursor.fetchall()
         formated_data = []
         sub_formated_data = {}
@@ -72,7 +73,7 @@ class App():
             sub_formated_data = {}
             num = 0
             for i in item:
-                sub_formated_data[self.formated[num]] = i
+                sub_formated_data[self.Formated_for_all[num]] = i
                 num+=1
             formated_data.append(sub_formated_data)
 
@@ -164,7 +165,7 @@ class App():
             formatted_time = time.ctime()
             styles=getSampleStyleSheet()
             styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
-            ptext = '<font size=24>Todos os Usuarios</font>'
+            ptext = '<font size=24>Todos os Dados dos Usuarios Selecionados</font>'
             Story.append(Paragraph(ptext, styles["Justify"]))
             Story.append(Spacer(1, 24))
             ptext = '<font size=12>Data de Criação do Documento: %s</font>' % formatted_time
@@ -277,7 +278,26 @@ class App():
             return sql
         except Exception as e:
             self._message(f' ERROR: {e} ','Listagem - Back-end')
-                
+
+    def createSQLListagemAll(self):
+        try:
+            entry = []
+            sql = 'SELECT Nome, Telefone, Minibio, Entrevista, Teorico, Pratico, Soft_Skills FROM user WHERE '
+            for item in self.dadosSearch.keys():
+                if(self.dadosSearch[item].get() != ''):
+                    if(type(self.whatType(self.dadosSearch[item].get())) is int):
+                        entry.append((self.dadosSearch[item].get(), item))
+                    else:
+                        raise Exception(f'Os dados do Campo {item} Não é Um numero inteiro. ')
+            time = entry[-1]
+            for item in range(len(entry)):
+                if(entry[item] == time):
+                    sql = sql + "( "+str(entry[item][1]) + " BETWEEN " + str(entry[item][0]) + ' AND 10 )'
+                else:
+                    sql = sql + "( " + str(entry[item][1]) + " BETWEEN " + str(entry[item][0]) + ' AND 10 ) AND '
+            return sql
+        except Exception as e:
+            self._message(f' ERROR: {e} ','Listagem - Back-end')      
 
     def listarend(self):
         self.__cursor.execute('SELECT * FROM user')
@@ -328,7 +348,6 @@ class App():
         self.data = formated_data
         self.deleteSelect()
         self.lis()
-
 
     def whatType(self, dados):
         try:
