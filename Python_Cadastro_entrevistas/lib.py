@@ -18,7 +18,6 @@ class App():
     dadosSearch = {'Entrevista':'','Teorico':'','Pratico':'','Soft_Skills':''}
     data = []
     formated = ['Id','Nome', 'Telefone', 'Minibio', 'Entrevista', 'Teorico', 'Pratico', 'Soft_Skills']
-    Formated_for_all = ['Nome', 'Telefone', 'Minibio', 'Entrevista', 'Teorico', 'Pratico', 'Soft_Skills']
     formated_select = ['Nome', 'Entrevista', 'Teorico', 'Pratico', 'Soft_Skills']
     def __init__(self):
 
@@ -71,9 +70,9 @@ class App():
         sub_formated_data = {}
         for item in data:
             sub_formated_data = {}
-            num = 0
+            num = 1
             for i in item:
-                sub_formated_data[self.Formated_for_all[num]] = i
+                sub_formated_data[self.formated[num]] = i
                 num+=1
             formated_data.append(sub_formated_data)
 
@@ -165,7 +164,7 @@ class App():
             formatted_time = time.ctime()
             styles=getSampleStyleSheet()
             styles.add(ParagraphStyle(name='Justify', alignment=TA_JUSTIFY))
-            ptext = '<font size=24>Todos os Dados dos Usuarios Selecionados</font>'
+            ptext = '<font size=24>Todos os Dados dos Usuarios</font>'
             Story.append(Paragraph(ptext, styles["Justify"]))
             Story.append(Spacer(1, 24))
             ptext = '<font size=12>Data de Criação do Documento: %s</font>' % formatted_time
@@ -354,6 +353,9 @@ class App():
             return int(dados)
         except:
             return str(dados)
+
+    def run(self):
+        self.window.mainloop()
 
     def createSql(self, table, data):
         start = 'INSERT INTO '+table+' ('
