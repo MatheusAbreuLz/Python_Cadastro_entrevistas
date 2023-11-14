@@ -1,5 +1,5 @@
 Para esta aplicação funcionar de modo correto,
-as seguintes bibliotecas devem ser instaladas
+Instale o seguinte.
 
 pip install customtkinter
 pip install mysql-connector-python
